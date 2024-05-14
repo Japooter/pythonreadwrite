@@ -11,7 +11,7 @@ def csv_read(file = "user_details.csv"):
     except:
         return "No file found."
 
-#print(csv_read()[0][2])
+print(csv_read())
 
 def write_to_new(new_file, columns, file = "user_details.csv"):
 
@@ -30,17 +30,35 @@ def write_to_new(new_file, columns, file = "user_details.csv"):
                         target_columns.append(old_file[0][header])
                         target_indices.append(value)
         #return target_indices
+            csv_transform = csv.writer(target)
             for i in range(len(old_file)):
-                for k in range(len(old_file[0])):
+                row = []
+                for k in range(len(old_file[i])):
                     if k in target_indices:
                         #print(target_indices)
-                        csv_transformed = csv.writer(target)
-                        csv_transformed.writerow(old_file[i][k])
+                        row.append(old_file[i][k])
+
+                csv_transform.writerow(row)
+        #csv_transformed = list(csv_transformed)
+            # csvreader = csv.reader(new_file, delimiter=",")
+            # csv_transformed = list(csvreader)
+            # #return csv_list
+            # return csv_transformed
+        with open(new_file, newline="") as csvnew:
+            csvreread = csv.reader(csvnew, delimiter=",")
+            csv_transformed = list(csvreread)
+            for i in range(len(csv_transformed)):
+                if csv_transformed[i] == []:
+                    return "Invalid csv!"
+
+            return csv_transformed
+
 
 
     except:
         return "Invalid"
 
-tester1 = write_to_new("attempt_4.csv", [1, 2, 4])
+tester1 = write_to_new("new_user_details.csv", [1, 2, 4])
+
 
 print(tester1)
